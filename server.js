@@ -20,8 +20,20 @@ app.post('/api/auth/register', async (req, res) => {
       password: hashedPassword,
     },
   })
-
   return res.json({ user })
+})
+
+// ユーザーログインAPI
+app.post('/api/auth/login', async (res, res) => {
+  const { email, password } = req.body
+  const user = prisma.user.findUnique({ where: { email } })
+  if (!user) {
+    return res.status(401).json({ error: 'そのユーザーは存在しません。' })
+  }
+  const isPasswordValid = await bcrypt.compare(password, user.password)
+  if (!isPasswordValid) {
+    return res.status(401).json({ error: 'そのパスワードは間違っています。' })
+  }
 })
 
 app.get('/', (req, res) => {
