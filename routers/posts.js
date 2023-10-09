@@ -1,8 +1,5 @@
 const router = require('express').Router()
 const { PrismaClient } = require('@prisma/client')
-const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-
 const prisma = new PrismaClient()
 
 // 呟き投稿用API
