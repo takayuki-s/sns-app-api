@@ -5,15 +5,16 @@ function isAuthenticated(req, res, next) {
   if (!token) {
     return res.status(401).json({ message: '権限がありません。' })
   }
-  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+  jwt.verify(token, process.env.SECRET_KEY, (err, decoded) => {
     if (err) {
+      console.log(err)
       return res.status(401).json({ message: '権限がありません。' })
     }
+
+    req.userId = decoded.id
+
+    next()
   })
-
-  req.userId = decoded.id
-
-  next()
 }
 
 module.exports = isAuthenticated
